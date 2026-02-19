@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>La Bella 'Mbriana - Trattoria Napoletana</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#C05640",
+                        "primary-dark": "#A0402C",
+                        "background-light": "#F3EAD3",
+                        "background-dark": "#1A2C32",
+                        "text-light": "#4A3B32",
+                        "text-dark": "#E8DEC5",
+                        "accent-gold": "#E0CE9A",
+                    },
+                    fontFamily: {
+                        display: ["'Playfair Display'", "serif"],
+                        body: ["'Lato'", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "4px",
+                        'lg': "8px",
+                        'xl': "12px",
+                    },
+                    backgroundImage: {
+                        'texture-light': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                        'texture-dark': "url('https://www.transparenttextures.com/patterns/black-linen.png')",
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .logo-font { font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
+        .bg-texture { background-repeat: repeat; }
+    </style>
+</head>
+<body class="font-body bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-300">
+    <nav class="fixed w-full z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-primary/20 dark:border-accent-gold/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex flex-col items-center sm:items-start">
+                    <a class="logo-font text-2xl font-bold text-primary dark:text-accent-gold tracking-tighter" href="#"> LA BELLA 'MBRIANA </a>
+                    <span class="text-[0.65rem] tracking-[0.2em] uppercase text-gray-600 dark:text-gray-400">Trattoria Napoletana</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a class="hover:text-primary dark:hover:text-accent-gold px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#story">Our Story</a>
+                        <a class="hover:text-primary dark:hover:text-accent-gold px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#menu">Menu</a>
+                        <a class="hover:text-primary dark:hover:text-accent-gold px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#gallery">Gallery</a>
+                        <a class="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded shadow-md transition-all transform hover:-translate-y-0.5 font-semibold text-sm" href="#reservations"> Book a Table </a>
+                        <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+                            <span class="material-icons text-xl align-middle">light_mode</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button aria-controls="mobile-menu" aria-expanded="false" class="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" type="button">
+                        <span class="sr-only">Open main menu</span>
+                        <span class="material-icons text-2xl">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:hidden bg-background-light dark:bg-background-dark border-b border-primary/20" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a class="hover:text-primary dark:hover:text-accent-gold block px-3 py-2 rounded-md text-base font-medium" href="#story">Our Story</a>
+                <a class="hover:text-primary dark:hover:text-accent-gold block px-3 py-2 rounded-md text-base font-medium" href="#menu">Menu</a>
+                <a class="text-primary dark:text-accent-gold font-bold block px-3 py-2 rounded-md text-base" href="#reservations">Book a Table</a>
+                <button class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200 dark:hover:bg-gray-700" onclick="document.documentElement.classList.toggle('dark')"> Toggle Theme </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img alt="Rustic wooden table with fresh pasta ingredients" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920"/>
+            <div class="absolute inset-0 bg-background-dark/60 dark:bg-background-dark/70 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background-light dark:to-background-dark"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <div class="mb-6 inline-block">
+                <span class="material-icons text-6xl text-primary dark:text-accent-gold opacity-90 mb-4">restaurant_menu</span>
+            </div>
+            <h1 class="logo-font text-5xl md:text-7xl lg:text-8xl text-background-light dark:text-accent-gold mb-4 leading-tight drop-shadow-lg"> La Bella 'Mbriana </h1>
+            <p class="text-xl md:text-2xl text-gray-200 font-light tracking-wide mb-10 max-w-2xl mx-auto"> Authentic Neapolitan soul food where tradition meets elegance. </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a class="px-8 py-3 bg-primary hover:bg-primary-dark text-white text-lg font-semibold rounded shadow-lg transition-transform transform hover:scale-105 border border-primary" href="#menu"> View Menu </a>
+                <a class="px-8 py-3 bg-transparent hover:bg-white/10 text-white text-lg font-semibold rounded border border-white transition-colors" href="#reservations"> Make a Reservation </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-20 md:py-28 bg-texture-light dark:bg-texture-dark bg-background-light dark:bg-background-dark" id="story">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+                <div class="w-full md:w-1/2 relative group">
+                    <div class="absolute inset-0 bg-primary transform translate-x-3 translate-y-3 rounded-lg opacity-20 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500"></div>
+                    <img alt="Chef making fresh pasta by hand" class="relative rounded-lg shadow-xl w-full h-[500px] object-cover filter sepia-[0.2] dark:sepia-[0.4]" src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800"/>
+                    <div class="absolute -bottom-6 -right-6 bg-background-light dark:bg-background-dark p-4 rounded-lg shadow-lg border border-primary/20 max-w-xs hidden md:block">
+                        <p class="font-display italic text-lg text-primary dark:text-accent-gold">"The spirit of the house lives in the kitchen."</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 space-y-6">
+                    <h2 class="font-display text-4xl md:text-5xl text-primary dark:text-accent-gold font-bold">The Legend of the House</h2>
+                    <div class="w-20 h-1 bg-primary dark:bg-accent-gold/50"></div>
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"> In Neapolitan folklore, <strong>La Bella 'Mbriana</strong> is the benevolent spirit of the house. We invoke her warmth and hospitality in every dish we serve. </p>
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"> Born from a desire to bring true Neapolitan trattoria culture to the modern table, our kitchen respects the slow rhythms of tradition. From the 24-hour leavened pizza dough to the slow-cooked Ragù Napoletano, everything is made with patience and love. </p>
+                    <div class="pt-4">
+                        <a class="inline-flex items-center text-primary dark:text-accent-gold font-bold hover:underline" href="#"> Read more about our heritage <span class="material-icons ml-2 text-sm">arrow_forward</span> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white dark:bg-[#152328]" id="menu">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center mb-16">
+            <span class="text-primary dark:text-accent-gold uppercase tracking-widest text-sm font-bold">Trattoria Classics</span>
+            <h2 class="font-display text-4xl md:text-5xl mt-2 text-gray-900 dark:text-white">Our Menu</h2>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">Seasonal ingredients, timeless recipes.</p>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
+            <div class="space-y-10">
+                <h3 class="font-display text-3xl text-primary dark:text-accent-gold border-b border-gray-200 dark:border-gray-700 pb-4 mb-8">Primi Piatti</h3>
+                <div class="flex justify-between items-baseline group cursor-default">
+                    <div class="flex-1 pr-4">
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Pasta e Patate</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Mixed pasta, potatoes, provola cheese, parmesan crust.</p>
+                    </div>
+                    <span class="text-lg font-bold text-primary dark:text-accent-gold">€16</span>
+                </div>
+                <div class="flex justify-between items-baseline group cursor-default">
+                    <div class="flex-1 pr-4">
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Ziti al Ragù</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Slow cooked beef and pork tomato sauce, pecorino.</p>
+                    </div>
+                    <span class="text-lg font-bold text-primary dark:text-accent-gold">€18</span>
+                </div>
+                <div class="flex justify-between items-baseline group cursor-default">
+                    <div class="flex-1 pr-4">
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Spaghetti alla Nerano</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Fried zucchini, provolone del monaco, basil.</p>
+                    </div>
+                    <span class="text-lg font-bold text-primary dark:text-accent-gold">€17</span>
+                </div>
+            </div>
+            <div class="space-y-10">
+                <h3 class="font-display text-3xl text-primary dark:text-accent-gold border-b border-gray-200 dark:border-gray-700 pb-4 mb-8">Pizze &amp; Secondi</h3>
+                <div class="flex justify-between items-baseline group cursor-default">
+                    <div class="flex-1 pr-4">
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Margherita D.O.P.</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">San Marzano tomato, buffalo mozzarella, fresh basil.</p>
+                    </div>
+                    <span class="text-lg font-bold text-primary dark:text-accent-gold">€14</span>
+                </div>
+                <div class="flex justify-between items-baseline group cursor-default">
+                    <div class="flex-1 pr-4">
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Polpette al Sugo</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Neapolitan meatballs in rich tomato sauce, rustic bread.</p>
+                    </div>
+                    <span class="text-lg font-bold text-primary dark:text-accent-gold">€15</span>
+                </div>
+                <div class="flex justify-between items-baseline group cursor-default">
+                    <div class="flex-1 pr-4">
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Parmigiana di Melanzane</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Layers of fried eggplant, mozzarella, tomato sauce, basil.</p>
+                    </div>
+                    <span class="text-lg font-bold text-primary dark:text-accent-gold">€16</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-16">
+            <button class="border-2 border-primary dark:border-accent-gold text-primary dark:text-accent-gold px-8 py-3 rounded hover:bg-primary hover:text-white dark:hover:bg-accent-gold dark:hover:text-background-dark transition-all duration-300 font-semibold uppercase tracking-wider text-sm"> Download Full Menu </button>
+        </div>
+    </section>
+
+    <div class="h-96 bg-fixed bg-center bg-cover relative" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920');">
+        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <div class="text-center p-8 border border-white/30 backdrop-blur-sm bg-white/10 rounded-lg max-w-2xl mx-4">
+                <h2 class="font-display text-4xl md:text-5xl text-white mb-4">"Chi mangia bene, vive bene."</h2>
+                <p class="text-xl text-gray-200 italic">- Who eats well, lives well.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="py-20 bg-background-light dark:bg-background-dark relative overflow-hidden" id="reservations">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full border-4 border-primary/10 dark:border-accent-gold/10 z-0"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-primary/5 dark:bg-accent-gold/5 z-0"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-4xl text-gray-800 dark:text-white font-bold mb-4">Book Your Table</h2>
+                <p class="text-gray-600 dark:text-gray-400">Join us for an unforgettable evening. Reservations recommended.</p>
+            </div>
+            <div class="bg-white dark:bg-[#23353b] shadow-2xl rounded-xl p-8 md:p-10 border border-gray-100 dark:border-gray-700">
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-6" action="https://formsubmit.co/info@labellambriana.it" method="POST">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                        <input name="name" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold" placeholder="Your Name" type="text" required/>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                        <input name="date" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold" type="date" required/>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Guests</label>
+                        <select name="guests" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold">
+                            <option>2 People</option>
+                            <option>3 People</option>
+                            <option>4 People</option>
+                            <option>5+ People</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Time</label>
+                        <select name="time" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold">
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Phone</label>
+                        <input name="phone" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold" placeholder="+39 ..." type="tel" required/>
+                    </div>
+                    <div class="md:col-span-2 mt-4">
+                        <button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded shadow-lg transition-transform transform hover:-translate-y-1" type="submit"> Confirm Reservation </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-primary dark:bg-[#152328] text-white dark:text-gray-300 pt-16 pb-8 border-t border-white/10 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div class="text-center md:text-left">
+                    <h3 class="font-display text-2xl font-bold mb-4 text-white dark:text-accent-gold">La Bella 'Mbriana</h3>
+                    <p class="text-white/80 dark:text-gray-400 mb-6">A tribute to the Neapolitan spirit through food, wine, and hospitality.</p>
+                    <div class="flex justify-center md:justify-start space-x-4">
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" href="#"> <span class="text-sm">IG</span> </a>
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" href="#"> <span class="text-sm">FB</span> </a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h4 class="font-bold text-lg mb-6 uppercase tracking-wider text-white/90 dark:text-white">Contact</h4>
+                    <p class="mb-2 hover:text-white/80 transition-colors cursor-pointer"> <span class="material-icons align-middle mr-2 text-sm">location_on</span> Via dei Tribunali, 32, Napoli </p>
+                    <p class="mb-2 hover:text-white/80 transition-colors cursor-pointer"> <span class="material-icons align-middle mr-2 text-sm">phone</span> +39 081 123 4567 </p>
+                    <p class="hover:text-white/80 transition-colors cursor-pointer"> <span class="material-icons align-middle mr-2 text-sm">email</span> info@labellambriana.it </p>
+                </div>
+                <div class="text-center md:text-right">
+                    <h4 class="font-bold text-lg mb-6 uppercase tracking-wider text-white/90 dark:text-white">Hours</h4>
+                    <ul class="space-y-2 text-white/80 dark:text-gray-400">
+                        <li>Tue - Sun: 12:00 - 15:00</li>
+                        <li>Tue - Sun: 19:00 - 23:30</li>
+                        <li>Monday: Closed</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 dark:border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60 dark:text-gray-500">
+                <p>© 2023 La Bella 'Mbriana. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
