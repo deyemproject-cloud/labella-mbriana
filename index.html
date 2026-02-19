@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -27,15 +29,6 @@
                         display: ["'Playfair Display'", "serif"],
                         body: ["'Lato'", "sans-serif"],
                     },
-                    borderRadius: {
-                        DEFAULT: "4px",
-                        'lg': "8px",
-                        'xl': "12px",
-                    },
-                    backgroundImage: {
-                        'texture-light': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
-                        'texture-dark': "url('https://www.transparenttextures.com/patterns/black-linen.png')",
-                    }
                 },
             },
         };
@@ -43,15 +36,142 @@
     <style>
         html { scroll-behavior: smooth; }
         .logo-font { font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
-        .bg-texture { background-repeat: repeat; }
+        
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #1A2C32;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .loading-logo {
+            font-size: 3rem;
+            color: #E0CE9A;
+            font-family: 'Playfair Display', serif;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .loading-line {
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #C05640, #E0CE9A);
+            margin-top: 20px;
+        }
+        
+        .menu-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: #C05640;
+            transition: width 0.4s ease;
+        }
+        
+        .menu-item:hover::before {
+            width: 100%;
+        }
+        
+        .img-zoom {
+            overflow: hidden;
+        }
+        
+        .img-zoom img {
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .img-zoom:hover img {
+            transform: scale(1.05);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .shimmer:hover::after {
+            left: 100%;
+        }
+        
+        .btn-hover {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-hover:hover::before {
+            left: 100%;
+        }
+        
+        .card-lift {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .card-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .quote-mark {
+            font-size: 4rem;
+            line-height: 1;
+            opacity: 0.3;
+            font-family: 'Playfair Display', serif;
+        }
     </style>
 </head>
-<body class="font-body bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-300">
-    <nav class="fixed w-full z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-primary/20 dark:border-accent-gold/20 transition-all duration-300">
+<body class="font-body bg-background-light dark:bg-background-dark text-text-light dark:text-dark transition-colors duration-300">
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">La Bella 'Mbriana</div>
+        <div class="loading-line" id="loadingLine"></div>
+    </div>
+
+    <nav class="fixed w-full z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-primary/20 dark:border-accent-gold/20 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex-shrink-0 flex flex-col items-center sm:items-start">
-                    <a class="logo-font text-2xl font-bold text-primary dark:text-accent-gold tracking-tighter" href="#"> LA BELLA 'MBRIANA </a>
+                    <a class="logo-font text-2xl font-bold text-primary dark:text-accent-gold tracking-tighter hover:opacity-80 transition-opacity" href="#"> LA BELLA 'MBRIANA </a>
                     <span class="text-[0.65rem] tracking-[0.2em] uppercase text-gray-600 dark:text-gray-400">Trattoria Napoletana</span>
                 </div>
                 <div class="hidden md:block">
@@ -59,15 +179,14 @@
                         <a class="hover:text-primary dark:hover:text-accent-gold px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#story">Our Story</a>
                         <a class="hover:text-primary dark:hover:text-accent-gold px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#menu">Menu</a>
                         <a class="hover:text-primary dark:hover:text-accent-gold px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#gallery">Gallery</a>
-                        <a class="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded shadow-md transition-all transform hover:-translate-y-0.5 font-semibold text-sm" href="#reservations"> Book a Table </a>
-                        <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+                        <a class="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded shadow-md transition-all transform hover:-translate-y-0.5 hover:shadow-lg font-semibold text-sm btn-hover" href="#reservations"> Book a Table </a>
+                        <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors transform hover:rotate-12" onclick="document.documentElement.classList.toggle('dark')">
                             <span class="material-icons text-xl align-middle">light_mode</span>
                         </button>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
-                    <button aria-controls="mobile-menu" aria-expanded="false" class="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" type="button">
-                        <span class="sr-only">Open main menu</span>
+                    <button class="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none transition-colors" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" type="button">
                         <span class="material-icons text-2xl">menu</span>
                     </button>
                 </div>
@@ -75,8 +194,8 @@
         </div>
         <div class="hidden md:hidden bg-background-light dark:bg-background-dark border-b border-primary/20" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a class="hover:text-primary dark:hover:text-accent-gold block px-3 py-2 rounded-md text-base font-medium" href="#story">Our Story</a>
-                <a class="hover:text-primary dark:hover:text-accent-gold block px-3 py-2 rounded-md text-base font-medium" href="#menu">Menu</a>
+                <a class="hover:text-primary dark:hover:text-accent-gold block px-3 py-2 rounded-md text-base font-medium transition-colors" href="#story">Our Story</a>
+                <a class="hover:text-primary dark:hover:text-accent-gold block px-3 py-2 rounded-md text-base font-medium transition-colors" href="#menu">Menu</a>
                 <a class="text-primary dark:text-accent-gold font-bold block px-3 py-2 rounded-md text-base" href="#reservations">Book a Table</a>
                 <button class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200 dark:hover:bg-gray-700" onclick="document.documentElement.classList.toggle('dark')"> Toggle Theme </button>
             </div>
@@ -85,40 +204,57 @@
 
     <header class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img alt="Rustic wooden table with fresh pasta ingredients" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920"/>
+            <img alt="Rustic wooden table" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920"/>
             <div class="absolute inset-0 bg-background-dark/60 dark:bg-background-dark/70 mix-blend-multiply"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background-light dark:to-background-dark"></div>
         </div>
+        
+        <div class="absolute top-1/4 left-10 w-20 h-20 border border-white/20 rounded-full float-animation hidden lg:block"></div>
+        <div class="absolute bottom-1/3 right-16 w-32 h-32 border border-primary/30 rounded-full float-animation hidden lg:block" style="animation-delay: 1s;"></div>
+        
         <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
             <div class="mb-6 inline-block">
-                <span class="material-icons text-6xl text-primary dark:text-accent-gold opacity-90 mb-4">restaurant_menu</span>
+                <span class="material-icons text-6xl text-primary dark:text-accent-gold opacity-90 mb-4 float-animation">restaurant_menu</span>
             </div>
             <h1 class="logo-font text-5xl md:text-7xl lg:text-8xl text-background-light dark:text-accent-gold mb-4 leading-tight drop-shadow-lg"> La Bella 'Mbriana </h1>
             <p class="text-xl md:text-2xl text-gray-200 font-light tracking-wide mb-10 max-w-2xl mx-auto"> Authentic Neapolitan soul food where tradition meets elegance. </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a class="px-8 py-3 bg-primary hover:bg-primary-dark text-white text-lg font-semibold rounded shadow-lg transition-transform transform hover:scale-105 border border-primary" href="#menu"> View Menu </a>
-                <a class="px-8 py-3 bg-transparent hover:bg-white/10 text-white text-lg font-semibold rounded border border-white transition-colors" href="#reservations"> Make a Reservation </a>
+                <a class="px-8 py-3 bg-primary hover:bg-primary-dark text-white text-lg font-semibold rounded shadow-lg transition-all transform hover:scale-105 hover:shadow-xl border border-primary btn-hover shimmer" href="#menu"> View Menu </a>
+                <a class="px-8 py-3 bg-transparent hover:bg-white/10 text-white text-lg font-semibold rounded border border-white transition-all hover:border-primary hover:text-primary" href="#reservations"> Make a Reservation </a>
             </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/60 animate-bounce">
+            <span class="material-icons text-3xl">keyboard_arrow_down</span>
         </div>
     </header>
 
-    <section class="py-20 md:py-28 bg-texture-light dark:bg-texture-dark bg-background-light dark:bg-background-dark" id="story">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-20 md:py-28 bg-background-light dark:bg-background-dark relative overflow-hidden" id="story">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent-gold/5 rounded-full translate-x-1/2 translate-y-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <div class="w-full md:w-1/2 relative group">
-                    <div class="absolute inset-0 bg-primary transform translate-x-3 translate-y-3 rounded-lg opacity-20 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500"></div>
-                    <img alt="Chef making fresh pasta by hand" class="relative rounded-lg shadow-xl w-full h-[500px] object-cover filter sepia-[0.2] dark:sepia-[0.4]" src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800"/>
-                    <div class="absolute -bottom-6 -right-6 bg-background-light dark:bg-background-dark p-4 rounded-lg shadow-lg border border-primary/20 max-w-xs hidden md:block">
+                <div class="w-full md:w-1/2 relative group gsap-reveal" data-reveal="left">
+                    <div class="absolute inset-0 bg-primary transform translate-x-3 translate-y-3 rounded-lg opacity-20 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-500"></div>
+                    <div class="img-zoom relative rounded-lg shadow-xl overflow-hidden">
+                        <img alt="Chef making fresh pasta" class="w-full h-[500px] object-cover filter sepia-[0.2] dark:sepia-[0.4]" src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800"/>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-background-light dark:bg-background-dark p-6 rounded-lg shadow-lg border border-primary/20 max-w-xs hidden md:block card-lift">
                         <p class="font-display italic text-lg text-primary dark:text-accent-gold">"The spirit of the house lives in the kitchen."</p>
                     </div>
                 </div>
-                <div class="w-full md:w-1/2 space-y-6">
+                <div class="w-full md:w-1/2 space-y-6 gsap-reveal" data-reveal="right">
+                    <span class="text-primary dark:text-accent-gold uppercase tracking-widest text-sm font-bold">Our Heritage</span>
                     <h2 class="font-display text-4xl md:text-5xl text-primary dark:text-accent-gold font-bold">The Legend of the House</h2>
-                    <div class="w-20 h-1 bg-primary dark:bg-accent-gold/50"></div>
-                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"> In Neapolitan folklore, <strong>La Bella 'Mbriana</strong> is the benevolent spirit of the house. We invoke her warmth and hospitality in every dish we serve. </p>
-                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"> Born from a desire to bring true Neapolitan trattoria culture to the modern table, our kitchen respects the slow rhythms of tradition. From the 24-hour leavened pizza dough to the slow-cooked Ragù Napoletano, everything is made with patience and love. </p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent-gold"></div>
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"> In Neapolitan folklore, <strong class="text-primary dark:text-accent-gold">La Bella 'Mbriana</strong> is the benevolent spirit of the house. We invoke her warmth and hospitality in every dish we serve. </p>
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"> Born from a desire to bring true Neapolitan trattoria culture to the modern table, our kitchen respects the slow rhythms of tradition. </p>
                     <div class="pt-4">
-                        <a class="inline-flex items-center text-primary dark:text-accent-gold font-bold hover:underline" href="#"> Read more about our heritage <span class="material-icons ml-2 text-sm">arrow_forward</span> </a>
+                        <a class="inline-flex items-center text-primary dark:text-accent-gold font-bold hover:underline group" href="#">
+                            Read more about our heritage 
+                            <span class="material-icons ml-2 text-sm transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -131,91 +267,104 @@
             <h2 class="font-display text-4xl md:text-5xl mt-2 text-gray-900 dark:text-white">Our Menu</h2>
             <p class="mt-4 text-gray-600 dark:text-gray-400">Seasonal ingredients, timeless recipes.</p>
         </div>
+        
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
-            <div class="space-y-10">
-                <h3 class="font-display text-3xl text-primary dark:text-accent-gold border-b border-gray-200 dark:border-gray-700 pb-4 mb-8">Primi Piatti</h3>
-                <div class="flex justify-between items-baseline group cursor-default">
+            <div class="space-y-10 gsap-reveal" data-reveal="left">
+                <h3 class="font-display text-3xl text-primary dark:text-accent-gold border-b-2 border-gray-200 dark:border-gray-700 pb-4 mb-8">Primi Piatti</h3>
+                
+                <div class="menu-item flex justify-between items-baseline group cursor-pointer card-lift p-4 -mx-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <div class="flex-1 pr-4">
-                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Pasta e Patate</h4>
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-accent-gold transition-colors">Pasta e Patate</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Mixed pasta, potatoes, provola cheese, parmesan crust.</p>
                     </div>
                     <span class="text-lg font-bold text-primary dark:text-accent-gold">€16</span>
                 </div>
-                <div class="flex justify-between items-baseline group cursor-default">
+                
+                <div class="menu-item flex justify-between items-baseline group cursor-pointer card-lift p-4 -mx-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <div class="flex-1 pr-4">
-                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Ziti al Ragù</h4>
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-accent-gold transition-colors">Ziti al Ragù</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Slow cooked beef and pork tomato sauce, pecorino.</p>
                     </div>
                     <span class="text-lg font-bold text-primary dark:text-accent-gold">€18</span>
                 </div>
-                <div class="flex justify-between items-baseline group cursor-default">
+                
+                <div class="menu-item flex justify-between items-baseline group cursor-pointer card-lift p-4 -mx-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <div class="flex-1 pr-4">
-                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Spaghetti alla Nerano</h4>
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-accent-gold transition-colors">Spaghetti alla Nerano</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Fried zucchini, provolone del monaco, basil.</p>
                     </div>
                     <span class="text-lg font-bold text-primary dark:text-accent-gold">€17</span>
                 </div>
             </div>
-            <div class="space-y-10">
-                <h3 class="font-display text-3xl text-primary dark:text-accent-gold border-b border-gray-200 dark:border-gray-700 pb-4 mb-8">Pizze &amp; Secondi</h3>
-                <div class="flex justify-between items-baseline group cursor-default">
+            
+            <div class="space-y-10 gsap-reveal" data-reveal="right">
+                <h3 class="font-display text-3xl text-primary dark:text-accent-gold border-b-2 border-gray-200 dark:border-gray-700 pb-4 mb-8">Pizze &amp; Secondi</h3>
+                
+                <div class="menu-item flex justify-between items-baseline group cursor-pointer card-lift p-4 -mx-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <div class="flex-1 pr-4">
-                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Margherita D.O.P.</h4>
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-accent-gold transition-colors">Margherita D.O.P.</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">San Marzano tomato, buffalo mozzarella, fresh basil.</p>
                     </div>
                     <span class="text-lg font-bold text-primary dark:text-accent-gold">€14</span>
                 </div>
-                <div class="flex justify-between items-baseline group cursor-default">
+                
+                <div class="menu-item flex justify-between items-baseline group cursor-pointer card-lift p-4 -mx-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <div class="flex-1 pr-4">
-                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Polpette al Sugo</h4>
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-accent-gold transition-colors">Polpette al Sugo</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Neapolitan meatballs in rich tomato sauce, rustic bread.</p>
                     </div>
                     <span class="text-lg font-bold text-primary dark:text-accent-gold">€15</span>
                 </div>
-                <div class="flex justify-between items-baseline group cursor-default">
+                
+                <div class="menu-item flex justify-between items-baseline group cursor-pointer card-lift p-4 -mx-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <div class="flex-1 pr-4">
-                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary transition-colors">Parmigiana di Melanzane</h4>
+                        <h4 class="text-xl font-display font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-accent-gold transition-colors">Parmigiana di Melanzane</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Layers of fried eggplant, mozzarella, tomato sauce, basil.</p>
                     </div>
                     <span class="text-lg font-bold text-primary dark:text-accent-gold">€16</span>
                 </div>
             </div>
         </div>
+        
         <div class="text-center mt-16">
-            <button class="border-2 border-primary dark:border-accent-gold text-primary dark:text-accent-gold px-8 py-3 rounded hover:bg-primary hover:text-white dark:hover:bg-accent-gold dark:hover:text-background-dark transition-all duration-300 font-semibold uppercase tracking-wider text-sm"> Download Full Menu </button>
+            <button class="border-2 border-primary dark:border-accent-gold text-primary dark:text-accent-gold px-8 py-3 rounded hover:bg-primary hover:text-white dark:hover:bg-accent-gold dark:hover:text-background-dark transition-all duration-300 font-semibold uppercase tracking-wider text-sm btn-hover shimmer"> Download Full Menu </button>
         </div>
     </section>
 
     <div class="h-96 bg-fixed bg-center bg-cover relative" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920');">
         <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <div class="text-center p-8 border border-white/30 backdrop-blur-sm bg-white/10 rounded-lg max-w-2xl mx-4">
-                <h2 class="font-display text-4xl md:text-5xl text-white mb-4">"Chi mangia bene, vive bene."</h2>
-                <p class="text-xl text-gray-200 italic">- Who eats well, lives well.</p>
+            <div class="text-center p-8 border border-white/30 backdrop-blur-sm bg-white/10 rounded-lg max-w-2xl mx-4 gsap-reveal" data-reveal="scale">
+                <div class="quote-mark text-white/30 mb-4">"</div>
+                <h2 class="font-display text-3xl md:text-5xl text-white mb-4 leading-tight">Chi mangia bene, vive bene.</h2>
+                <p class="text-xl text-gray-200 italic">— Who eats well, lives well.</p>
             </div>
         </div>
     </div>
 
     <section class="py-20 bg-background-light dark:bg-background-dark relative overflow-hidden" id="reservations">
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full border-4 border-primary/10 dark:border-accent-gold/10 z-0"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-primary/5 dark:bg-accent-gold/5 z-0"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full border-4 border-primary/10 dark:border-accent-gold/10"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-primary/5 dark:bg-accent-gold/5"></div>
+        
         <div class="max-w-4xl mx-auto px-4 relative z-10">
             <div class="text-center mb-12">
+                <span class="text-primary dark:text-accent-gold uppercase tracking-widest text-sm font-bold">Join Us</span>
                 <h2 class="font-display text-4xl text-gray-800 dark:text-white font-bold mb-4">Book Your Table</h2>
-                <p class="text-gray-600 dark:text-gray-400">Join us for an unforgettable evening. Reservations recommended.</p>
+                <p class="text-gray-600 dark:text-gray-400">Join us for an unforgettable evening.</p>
             </div>
-            <div class="bg-white dark:bg-[#23353b] shadow-2xl rounded-xl p-8 md:p-10 border border-gray-100 dark:border-gray-700">
+            
+            <div class="bg-white dark:bg-[#23353b] shadow-2xl rounded-xl p-8 md:p-10 border border-gray-100 dark:border-gray-700 card-lift gsap-reveal" data-reveal="up">
                 <form class="grid grid-cols-1 md:grid-cols-2 gap-6" action="https://formsubmit.co/info@labellambriana.it" method="POST">
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Name</label>
-                        <input name="name" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold" placeholder="Your Name" type="text" required/>
+                        <input name="name" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold transition-all" placeholder="Your Name" type="text" required/>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Date</label>
-                        <input name="date" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold" type="date" required/>
+                        <input name="date" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold transition-all" type="date" required/>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Guests</label>
-                        <select name="guests" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold">
+                        <select name="guests" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold transition-all">
                             <option>2 People</option>
                             <option>3 People</option>
                             <option>4 People</option>
@@ -224,7 +373,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Time</label>
-                        <select name="time" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold">
+                        <select name="time" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold transition-all">
                             <option>19:00</option>
                             <option>19:30</option>
                             <option>20:00</option>
@@ -234,12 +383,36 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Phone</label>
-                        <input name="phone" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold" placeholder="+39 ..." type="tel" required/>
+                        <input name="phone" class="w-full bg-gray-50 dark:bg-[#1a2c32] border border-gray-300 dark:border-gray-600 rounded px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent-gold transition-all" placeholder="+39 ..." type="tel" required/>
                     </div>
                     <div class="md:col-span-2 mt-4">
-                        <button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded shadow-lg transition-transform transform hover:-translate-y-1" type="submit"> Confirm Reservation </button>
+                        <button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded shadow-lg transition-all transform hover:-translate-y-1 hover:shadow-xl btn-hover shimmer" type="submit"> Confirm Reservation </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white dark:bg-[#152328]" id="gallery">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <span class="text-primary dark:text-accent-gold uppercase tracking-widest text-sm font-bold">Moments</span>
+                <h2 class="font-display text-4xl md:text-5xl mt-2 text-gray-900 dark:text-white">Our Gallery</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="img-zoom rounded-lg overflow-hidden gsap-reveal" data-reveal="scale" style="transition-delay: 0s;">
+                    <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400" class="w-full h-48 object-cover" alt="Pizza">
+                </div>
+                <div class="img-zoom rounded-lg overflow-hidden gsap-reveal" data-reveal="scale" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400" class="w-full h-48 object-cover" alt="Pasta">
+                </div>
+                <div class="img-zoom rounded-lg overflow-hidden gsap-reveal" data-reveal="scale" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400" class="w-full h-48 object-cover" alt="Wine">
+                </div>
+                <div class="img-zoom rounded-lg overflow-hidden gsap-reveal" data-reveal="scale" style="transition-delay: 0.3s;">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" class="w-full h-48 object-cover" alt="Restaurant">
+                </div>
             </div>
         </div>
     </section>
@@ -251,8 +424,8 @@
                     <h3 class="font-display text-2xl font-bold mb-4 text-white dark:text-accent-gold">La Bella 'Mbriana</h3>
                     <p class="text-white/80 dark:text-gray-400 mb-6">A tribute to the Neapolitan spirit through food, wine, and hospitality.</p>
                     <div class="flex justify-center md:justify-start space-x-4">
-                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" href="#"> <span class="text-sm">IG</span> </a>
-                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" href="#"> <span class="text-sm">FB</span> </a>
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all transform hover:scale-110" href="#"> <span class="text-sm">IG</span> </a>
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all transform hover:scale-110" href="#"> <span class="text-sm">FB</span> </a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -279,5 +452,90 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Loading animation
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            tl.to('.loading-logo', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            })
+            .to('.loading-line', {
+                width: '200px',
+                duration: 1.5,
+                ease: 'power2.inOut'
+            }, '-=0.4')
+            .to('#loadingScreen', {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }
+            }, '+=0.3');
+        });
+
+        // GSAP ScrollTrigger setup
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Reveal animations
+        const revealElements = document.querySelectorAll('.gsap-reveal');
+        
+        revealElements.forEach(el => {
+            const revealType = el.dataset.reveal;
+            
+            let fromVars = { opacity: 0 };
+            
+            switch(revealType) {
+                case 'left':                    fromVars = { opacity: 0, x: -50 };
+                    break;
+                case 'right':
+                    fromVars = { opacity: 0, x: 50 };
+                    break;
+                case 'up':
+                    fromVars = { opacity: 0, y: 50 };
+                    break;
+                case 'scale':
+                    fromVars = { opacity: 0, scale: 0.8 };
+                    break;
+            }
+            
+            gsap.fromTo(el, fromVars, {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        ScrollTrigger.create({
+            start: 'top -80',
+            end: 99999,
+            toggleClass: { className: 'shadow-lg', targets: '#navbar' }
+        });
+
+        // Parallax effect for hero
+        gsap.to('header img', {
+            yPercent: 20,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'header',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+    </script>
 </body>
 </html>
