@@ -389,6 +389,37 @@
                         <button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded shadow-lg transition-all transform hover:-translate-y-1 hover:shadow-xl btn-hover shimmer" type="submit"> Confirm Reservation </button>
                     </div>
                 </form>
+                <script>
+                    (function () {
+                        const dateInput = document.querySelector('form[action*="formsubmit"] input[type="date"]');
+                        const form = dateInput && dateInput.closest('form');
+
+                        function isClosedDay(value) {
+                            if (!value) return false;
+                            const d = new Date(value + 'T12:00:00');
+                            return d.getDay() === 2 || d.getDay() === 3;
+                        }
+
+                        if (dateInput) {
+                            dateInput.addEventListener('change', function () {
+                                if (isClosedDay(this.value)) {
+                                    alert('We are closed on Tuesdays and Wednesdays. Please choose another day.');
+                                    this.value = '';
+                                }
+                            });
+                        }
+
+                        if (form) {
+                            form.addEventListener('submit', function (e) {
+                                if (isClosedDay(dateInput.value)) {
+                                    e.preventDefault();
+                                    alert('We are closed on Tuesdays and Wednesdays. Please choose another day.');
+                                    dateInput.value = '';
+                                }
+                            });
+                        }
+                    })();
+                </script>
             </div>
         </div>
     </section>
